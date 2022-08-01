@@ -28,7 +28,7 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
-  Category.fineOne({
+  Category.findOne({
     where: {
       id: req.params.id
     },
@@ -44,8 +44,11 @@ router.get('/:id', (req, res) => {
       }
       res.json(dbCategoryData);
     })
-    .catch(err);
-  res.status(500).json(err)
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
+
 });
 
 router.post('/', (req, res) => {
@@ -69,9 +72,14 @@ router.put('/:id', (req, res) => {
   })
     .then(dbCategoryData => {
       if (!dbCategoryData) {
-        console.log(err);
-        res.status(500).json(err);
+        res.status(404).json({ message: 'No category found with this id' });
+        return;
       }
+      res.json(dbCategoryData)
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
     });
 });
 

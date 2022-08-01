@@ -15,14 +15,14 @@ router.get('/', (req, res) => {
     .then(dbTagData => res.json(dbTagData))
     .catch(err => {
       console.log(err);
-      res.status(500)res.json(err);
+      res.status(500).json(err);
     });
 });
 
 router.get('/:id', (req, res) => {
   // find a single tag by its `id`
   // be sure to include its associated Product data
-  Tag.fineOne({
+  Tag.findOne({
     where: {
       id: req.params.id
     },
@@ -40,7 +40,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   // create a new tag
-  Tag.update(req.body, {
+  Tag.create(req.body, {
     where: {
       id: req.params.id
     }
@@ -81,7 +81,7 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
-  Tag.destroy(req.body, {
+  Tag.destroy({
     where: {
       id: req.params.id
     }
